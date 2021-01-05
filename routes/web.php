@@ -17,7 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//View shopping categories list
 Route::get('/ShoppingList', [App\Http\Controllers\ShoppingListController::class, 'displaylist'])->middleware('auth');
+
+
+//Add shopping category
+Route::get('/AddCategory', [App\Http\Controllers\ShoppingListController::class, 'AddShoppingListCategory'])->middleware('auth');
 
 
 Auth::routes();
