@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\shoppinglist_Categories;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
-    }
+      $user = Auth::user();
+
+      $shop= shoppinglist_Categories::all()->where('Created_by',$user->email);
+      if(sizeof($shop)==0)
+      {
+        return view('shoppingListView',['shoppinglist'=>$shop,'status'=>"bad"]);
+
+      }
+      else{
+      return view('shoppingListView',['shoppinglist'=>$shop, 'status'=>"good"]);    }
+
+}
+
 }

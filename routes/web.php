@@ -13,13 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/home', function () {
     return view('welcome');
 });
 
 //View shopping categories list
 Route::get('/ShoppingList', [App\Http\Controllers\ShoppingListController::class, 'displaylist'])->middleware('auth');
 
+Route::get('/logout1', [App\Http\Controllers\ShoppingListController::class, 'logout1'])->middleware('auth');
 
 //Add shopping category
 Route::get('/AddCategory', [App\Http\Controllers\ShoppingListController::class, 'AddShoppingListCategory'])->middleware('auth');
@@ -27,4 +28,4 @@ Route::get('/AddCategory', [App\Http\Controllers\ShoppingListController::class, 
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

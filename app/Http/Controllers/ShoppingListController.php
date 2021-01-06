@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\shoppinglist_Categories;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Session;
 //Controller for ShoppingList
 class ShoppingListController extends Controller
 {
@@ -24,6 +24,8 @@ class ShoppingListController extends Controller
     return view('shoppingListView',['shoppinglist'=>$shop, 'status'=>"good"]);
 }
   }
+
+  
 
 //Add Category if not exists
   public function AddShoppingListCategory()
@@ -50,5 +52,10 @@ class ShoppingListController extends Controller
     public function AddShoppingListItem()
     {
     }
-
+    public function logout1()
+    {
+        Auth::logout();
+        Session::flush();
+        return redirect('/');
+    }
 }
