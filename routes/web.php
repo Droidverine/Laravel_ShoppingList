@@ -20,6 +20,10 @@ Route::get('/home', function () {
 //View shopping categories list
 Route::get('/ShoppingList', [App\Http\Controllers\ShoppingListController::class, 'displaylist'])->middleware('auth');
 
+Route::get('/ShoppingListItems', [App\Http\Controllers\ShoppingListController::class, 'ViewShoppingListItem'])->middleware('auth');
+Route::get('/AddShoppingListItems', [App\Http\Controllers\ShoppingListController::class, 'AddShoppingListItem'])->middleware('auth');
+
+
 Route::get('/logout1', [App\Http\Controllers\ShoppingListController::class, 'logout1'])->middleware('auth');
 
 //Add shopping category

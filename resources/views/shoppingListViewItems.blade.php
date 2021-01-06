@@ -86,22 +86,55 @@
 <center><h3>List of shoplists</h3> </center>
 <ul>
 
- @foreach ($shoppinglist as $shop)
- <li class="list-group-item" onclick="location.href='/ShoppingListItems?Item_category={{$shop->Category_Name}}'" >
-  {{$shop->Category_Name}}
+ @foreach ($shoppinglistitems as $shop)
+ <li class="list-group-item" >
+  <input type="checkbox" onclick="" style="vertical-align: right" class="form-check-input" name="ev_uid" > <a href="/EditTask?EditView">{{$Item_category}}
+</a><div align="right"><a style="font-size: 60%">ss</a></div></font>
+<div align="right" >
+<a>Task Due:a></b></div>
+    <div align="center">        <button type="button" class="btn btn-default btn-sm"
+  onClick="location.href='/Task_Delete'">
+    <span class="glyphicon glyphicon-remove"></span> Delete
+  </button> <button type="button" class="btn btn-default btn-sm"
+onClick="location.href='/Task_Delete'">
+  <span class="glyphicon glyphicon-edit"></span> Edit
+</button></div>
+
   </li>
  @endforeach
 
 </ul>
 </div>
-<center><form method="get" action="/AddCategory">
+<center>
+<h3>Add Task</h3>
+</center>
+<center><form method="get" action="/AddShoppingListItems">
   @csrf
-  <input type="hidden" name="Created_by" id="Created_by" value="shivrajblogger@gmail.com">
-  <input type="text" name="Category_Name" id="Category_Name" placeholder="Enter Shop list category here">
-  <input type="submit" value="submit">
+  <input type="hidden" name="Item_category" id="Item_category" value="{{$Item_category}}">
+  <input type="text" name="Item_name" id="Item_name" placeholder="Enter Item name here">
+  <input type="submit" >
 </form>
 </center>
 </div>
+<script>
+function myFunction(tkuid,tkboardname) {
+  var txt;
+  if (confirm("Do you really want to mark this!??")) {
+  //window.location="/EditTask?EditStatus=True&Item_name="+tkuid+"&Item_category="+tkboardname";
+  } else {
+   }
+
+
+}
+function DeleteTaskboard(tkuid) {
+  var txt;
+  if (confirm("Do you really want to Delete this Item?")) {
+  //window.location="/ShopItem_Delete?Item_name=itemname&Item_category=Item_category";
+  }
+
+
+}
+</script>
         </body>
 
 </html>
