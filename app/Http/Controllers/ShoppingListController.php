@@ -24,7 +24,7 @@ class ShoppingListController extends Controller
 
     }
     else{
-    return view('shoppingListView',['shoppinglist'=>$shop, 'status'=>"good"]);
+    return view('shoppingListView',['shoppinglist'=>$shop,'user' =>$user->email,'status'=>"good"]);
 }
   }
 
@@ -35,6 +35,7 @@ class ShoppingListController extends Controller
   {
     $user = Auth::user();
     $shop= shoppinglist_Categories::all()->where('Created_by',$user->email)->where('Category_Name',request("Category_Name"));
+
     $addCat= new shoppinglist_Categories();
     $addCat->Category_Name=request("Category_Name");
     $addCat->Created_by=$user->email;
@@ -43,10 +44,14 @@ class ShoppingListController extends Controller
     if(sizeof($shop)==0)
     {
       $addCat->save();
+      $shop= shoppinglist_Categories::all()->where('Created_by',$user->email);
+
       return view('shoppingListView',['shoppinglist'=>$shop,'status'=>"Added"]);
 
     }
     else{
+      $shop= shoppinglist_Categories::all()->where('Created_by',$user->email);
+
     return view('shoppingListView',['shoppinglist'=>$shop, 'status'=>"Aha Seems you already have this"]);
     }
   }
@@ -59,12 +64,12 @@ class ShoppingListController extends Controller
 
 
       if(sizeof($shop)==0)
-      {
+       {
         $addshop= new shoppinglist_items();
         $addshop->Item_category=request("Item_category");
         $addshop->Item_createdby=$user->email;
         $addshop->Item_name=request("Item_name");;
-        $addshop->Item_status="Active";
+        $addshop->Item_status="False";
         $addshop->save();
         //sleep for 3 seconds
         $allitems= shoppinglist_items::all()->where('Item_createdby',$user->email)->where('Item_category',request("Item_category"));
@@ -83,14 +88,56 @@ class ShoppingListController extends Controller
       $user = Auth::user();
       $itemc=$request->input('Item_category');
       $allitems= shoppinglist_items::all()->where('Item_createdby',$user->email)->where('Item_category',request("Item_category"));
-
-
       $shop= shoppinglist_items::all()->where('Item_createdby',$user->email)->where('Item_category',$itemc);
       $addCat= new shoppinglist_Categories();
       return view('shoppingListViewItems',['Item_category'=>$itemc,'Item_createdby'=>$user->email,'shoppinglistitems'=>$allitems,'status'=>'Added']);
-
-
     }
+
+    public function DeleteItem(Request $request)
+    {
+      $user = Auth::user();
+      $itemc=$request->input('Item_category');
+      $itemn=$request->input('Item_name');
+      $allitems= shoppinglist_items::where('Item_name',$itemn)->where('Item_createdby',$user->email)->where('Item_category',request("Item_category"))->delete();
+      $shop= shoppinglist_items::all()->where('Item_createdby',$user->email)->where('Item_category',$itemc);
+      return view('shoppingListViewItems',['Item_category'=>$itemc,'Item_createdby'=>$user->email,'shoppinglistitems'=>$shop,'status'=>'Added']);
+    }
+
+    public function MarkItem(Request $request)
+    {
+      $user = Auth::user();
+      $itemc=$request->input('Item_category');
+      $itemn=$request->input('Item_name');
+      $allitems= shoppinglist_items::where('Item_name',$itemn)->where('Item_createdby',$user->email)->where('Item_category',request("Item_category"))->update(['Item_status' => "True"]);
+      $shop= shoppinglist_items::all()->where('Item_createdby',$user->email)->where('Item_category',$itemc);
+      return view('shoppingListViewItems',['Item_category'=>$itemc,'Item_createdby'=>$user->email,'shoppinglistitems'=>$shop,'status'=>'Added']);
+    }
+
+    public function EditItem(Request $request)
+    {
+      //check if already exists pending
+      $user = Auth::user();
+      $itemc=$request->input('Item_category');
+      $itemn=$request->input('Item_name');
+      $newitemname=$request->input('New_Item_name');
+      $allitems= shoppinglist_items::where('Item_name',$itemn)->where('Item_createdby',$user->email)->where('Item_category',request("Item_category"))->update(['Item_name' => $newitemname]);
+      $shop= shoppinglist_items::all()->where('Item_createdby',$user->email)->where('Item_category',$itemc);
+      return view('shoppingListViewItems',['Item_category'=>$itemc,'Item_createdby'=>$user->email,'shoppinglistitems'=>$shop,'status'=>'Added']);
+    }
+
+    public function DeleteCategory(Request $request)
+    {
+      //check if already exists pending
+      $user = Auth::user();
+      $itemc=$request->input('Item_category');
+      $delcat= shoppinglist_items::where('Item_createdby',$user->email)->where('Item_category',request("Item_category"))->delete();
+      $delitem= shoppinglist_Categories::where('Created_by',$user->email)->where('Category_Name',$itemc)->delete();
+      $shop= shoppinglist_Categories::all()->where('Created_by',$user->email);
+
+      return view('shoppingListView',['Item_category'=>$itemc,'Item_createdby'=>$user->email,'shoppinglist'=>$shop,'status'=>'Added']);
+    }
+
+
     public function logout1()
     {
         Auth::logout();

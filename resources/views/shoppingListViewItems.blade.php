@@ -82,55 +82,88 @@
   </div>
 </nav>
 <div class="container">
-          <div style="align:center;">
+    <center>
+          <div style="align:center;margin-left:5%;margin-right:5%;">
+            <div>
+            <h3>Add Item to list:</h3>
+          <form  method="get" action="/AddShoppingListItems">
+              @csrf
+              <input type="hidden" name="Item_category" id="Item_category" value="{{$Item_category}}">
+              <input type="text" name="Item_name" id="Item_name" placeholder="Enter Item name here" required>
+              <input type="submit" >
+            </form>
+            </div>
+          </center>
+
 <center><h3>List of shoplists</h3> </center>
 <ul>
 
  @foreach ($shoppinglistitems as $shop)
- <li class="list-group-item" >
-  <input type="checkbox" onclick="" style="vertical-align: right" class="form-check-input" name="ev_uid" > <a href="/EditTask?EditView">{{$Item_category}}
-</a><div align="right"><a style="font-size: 60%">ss</a></div></font>
+ <li class="list-group-item" location.href="'/EditItem?Item_name={{$shop->Item_name}}&Item_category={{$shop->Item_category}}'">
+@if($shop->Item_status=="False")
+  <input type="checkbox" onclick="MarkItem('{{$shop->Item_name}}','{{$shop->Item_category}}')" style="vertical-align: right" class="form-check-input" name="ev_uid" >
+@elseif($shop->Item_status=="True")
+<input type="checkbox" onclick="MarkItem('{{$shop->Item_name}}','{{$shop->Item_category}}')" style="vertical-align: right" class="form-check-input" name="ev_uid" checked>
+@endif
+  <a>{{$shop->Item_name}}</a>    <button type="button" class="close" onclick="DeleteItem('{{$shop->Item_name}}','{{$shop->Item_category}}')">&times;</button>
+
 <div align="right" >
-<a>Task Due:a></b></div>
-    <div align="center">        <button type="button" class="btn btn-default btn-sm"
-  onClick="location.href='/Task_Delete'">
-    <span class="glyphicon glyphicon-remove"></span> Delete
-  </button> <button type="button" class="btn btn-default btn-sm"
-onClick="location.href='/Task_Delete'">
+  <br>
+<a>Created on: {{$shop->created_at}}</b></div>
+    <div align="center"> <button type="button"
+ class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
   <span class="glyphicon glyphicon-edit"></span> Edit
 </button></div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <a style="font-size:28px;" class="d-inline-block" >Edit Item name</a>         <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+  <form method="get" action="/EditItem">
+      <input type='text' name="New_Item_name" placeholder="{{$shop->Item_name}}" required><br>
+      <input type='hidden' name="Item_name" value="{{$shop->Item_name}}">
+      <input type='hidden' name="Item_category" value="{{$shop->Item_category}}">
+      <input type='submit' value='submit'>
+
+
+      </form>
+</div>
+
+    </div>
+
+  </div>
+</div>
   </li>
  @endforeach
 
 </ul>
 </div>
-<center>
-<h3>Add Task</h3>
-</center>
-<center><form method="get" action="/AddShoppingListItems">
-  @csrf
-  <input type="hidden" name="Item_category" id="Item_category" value="{{$Item_category}}">
-  <input type="text" name="Item_name" id="Item_name" placeholder="Enter Item name here">
-  <input type="submit" >
-</form>
-</center>
 </div>
 <script>
-function myFunction(tkuid,tkboardname) {
+function MarkItem(Item_name,Item_category) {
   var txt;
   if (confirm("Do you really want to mark this!??")) {
-  //window.location="/EditTask?EditStatus=True&Item_name="+tkuid+"&Item_category="+tkboardname";
+    window.location.href="/MarkItem?Item_name="+ Item_name+ "&Item_category="+Item_category;
   } else {
+    window.location.href="/MarkItem?Item_category="+ Item_category;
+
    }
 
 
 }
-function DeleteTaskboard(tkuid) {
+function DeleteItem(Item_name,Item_category) {
   var txt;
-  if (confirm("Do you really want to Delete this Item?")) {
-  //window.location="/ShopItem_Delete?Item_name=itemname&Item_category=Item_category";
+  if (confirm("Do you really want to Delete "+Item_name+" ?")) {
+  window.location.href="/DeleteItem?Item_name="+ Item_name+ "&Item_category="+Item_category;
   }
+
+
+
 
 
 }

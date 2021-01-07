@@ -87,8 +87,11 @@
 <ul>
 
  @foreach ($shoppinglist as $shop)
- <li class="list-group-item" onclick="location.href='/ShoppingListItems?Item_category={{$shop->Category_Name}}'" >
-  {{$shop->Category_Name}}
+ <li class="list-group-item" >
+   <a onclick="location.href='/ShoppingListItems?Item_category={{$shop->Category_Name}}'" >{{$shop->Category_Name}}</a>    <button style="z-index: 4;" type="button" class="close" onclick="DeleteCategory('{{$shop->Category_Name}}')">&times;</button>
+<br><br>
+ <div align="right" >
+ <a>Created on: {{$shop->created_at}}</b></div>
   </li>
  @endforeach
 
@@ -96,12 +99,25 @@
 </div>
 <center><form method="get" action="/AddCategory">
   @csrf
-  <input type="hidden" name="Created_by" id="Created_by" value="shivrajblogger@gmail.com">
   <input type="text" name="Category_Name" id="Category_Name" placeholder="Enter Shop list category here">
   <input type="submit" value="submit">
 </form>
 </center>
+<div align="right">
+
+<footer>Signed in as <b>{{$user ?? ''}}</b></footer>
+
 </div>
-        </body>
+</div>
+<script>
+
+function DeleteCategory(Item_category) {
+  var txt;
+  if (confirm("Do you really want to Delete "+Item_category+" ?")) {
+  window.location.href="/DeleteCategory?Item_category="+Item_category;
+  }
+}
+</script>
+  </body>
 
 </html>

@@ -13,17 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/home', function () {
-    return view('welcome');
-});
+Route::get('/home', [App\Http\Controllers\ShoppingListController::class, 'displaylist'])->middleware('auth');
 
 //View shopping categories list
 Route::get('/ShoppingList', [App\Http\Controllers\ShoppingListController::class, 'displaylist'])->middleware('auth');
 
 Route::get('/ShoppingListItems', [App\Http\Controllers\ShoppingListController::class, 'ViewShoppingListItem'])->middleware('auth');
 Route::get('/AddShoppingListItems', [App\Http\Controllers\ShoppingListController::class, 'AddShoppingListItem'])->middleware('auth');
+Route::get('/DeleteItem', [App\Http\Controllers\ShoppingListController::class, 'DeleteItem'])->middleware('auth');
+Route::get('/MarkItem', [App\Http\Controllers\ShoppingListController::class, 'MarkItem'])->middleware('auth');
+Route::get('/EditItem', [App\Http\Controllers\ShoppingListController::class, 'EditItem'])->middleware('auth');
 
+Route::get('/DeleteCategory', [App\Http\Controllers\ShoppingListController::class, 'DeleteCategory'])->middleware('auth');
 
+//DeleteCategory
 Route::get('/logout1', [App\Http\Controllers\ShoppingListController::class, 'logout1'])->middleware('auth');
 
 //Add shopping category
