@@ -86,6 +86,7 @@
           <div style="align:center;">
             <center>
               <h3>Add new category</h3>
+              <a style="color:RED;">{{$status ?? ''}}</a>
 
               <form method="get" action="/AddCategory">
               @csrf
@@ -99,7 +100,9 @@
  @foreach ($shoppinglist as $shop)
  <li class="list-group-item" >
    <a style="font-size:28px;"onclick="location.href='/ShoppingListItems?Item_category={{$shop->Category_Name}}'" >{{$shop->Category_Name}}</a>    <button style="z-index: 4;" type="button" class="close" onclick="DeleteCategory('{{$shop->Category_Name}}')">&times;</button>
-<br><br>
+<br>
+<a>Total items: {{$shop->items_count}}</a> &nbsp; <a>fulfilled items: {{$shop->status_true_count}}</a>
+<br>
  <div align="right" >
  <a>Created on: {{$shop->created_at}}</b></div>
   </li>

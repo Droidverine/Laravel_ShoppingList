@@ -86,6 +86,8 @@
           <div style="align:center;margin-left:5%;margin-right:5%;">
             <div>
             <h3>Add Item to list:</h3>
+
+            <a style="color:RED;">{{$status ?? ''}}</a>
           <form  method="get" action="/AddShoppingListItems">
               @csrf
               <input type="hidden" name="Item_category" id="Item_category" value="{{$Item_category}}">
@@ -95,7 +97,7 @@
             </div>
           </center>
 
-<center><h3>List of shoplists</h3> </center>
+<center><h3>List of items</h3> </center>
 <ul>
 
  @foreach ($shoppinglistitems as $shop)
@@ -103,7 +105,7 @@
 @if($shop->Item_status=="False")
   <input type="checkbox" onclick="MarkItem('{{$shop->Item_name}}','{{$shop->Item_category}}')" style="vertical-align: right" class="form-check-input" name="ev_uid" >
 @elseif($shop->Item_status=="True")
-<input type="checkbox" onclick="MarkItem('{{$shop->Item_name}}','{{$shop->Item_category}}')" style="vertical-align: right" class="form-check-input" name="ev_uid" checked>
+<input type="checkbox" onclick="MarkItem('{{$shop->Item_name}}','{{$shop->Item_category}}')" style="vertical-align: right" class="form-check-input" name="ev_uid" checked disabled>
 @endif
   <a style="font-size:28px;">{{$shop->Item_name}}</a>    <button type="button" class="close" onclick="DeleteItem('{{$shop->Item_name}}','{{$shop->Item_category}}')">&times;</button>
 
