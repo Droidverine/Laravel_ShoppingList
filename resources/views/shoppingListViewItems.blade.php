@@ -105,14 +105,14 @@
 @elseif($shop->Item_status=="True")
 <input type="checkbox" onclick="MarkItem('{{$shop->Item_name}}','{{$shop->Item_category}}')" style="vertical-align: right" class="form-check-input" name="ev_uid" checked>
 @endif
-  <a>{{$shop->Item_name}}</a>    <button type="button" class="close" onclick="DeleteItem('{{$shop->Item_name}}','{{$shop->Item_category}}')">&times;</button>
+  <a style="font-size:28px;">{{$shop->Item_name}}</a>    <button type="button" class="close" onclick="DeleteItem('{{$shop->Item_name}}','{{$shop->Item_category}}')">&times;</button>
 
 <div align="right" >
   <br>
 <a>Created on: {{$shop->created_at}}</b></div>
     <div align="center"> <button type="button"
- class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
-  <span class="glyphicon glyphicon-edit"></span> Edit
+  data-toggle="modal" data-target="#myModal">
+  <span class="glyphicon glyphicon-pencil"></span> Edit
 </button></div>
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">

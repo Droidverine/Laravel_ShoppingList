@@ -20,8 +20,9 @@
           width: 50%
           box-sizing: border-box;}
 
-        input[type=text], select, textarea {
-          width: 100%;
+        input[type=text]{
+          width: 80%;
+
           padding: 12px;
           border: 1px solid #ccc;
           border-radius: 4px;
@@ -83,12 +84,21 @@
 </nav>
 <div class="container">
           <div style="align:center;">
+            <center>
+              <h3>Add new category</h3>
+
+              <form method="get" action="/AddCategory">
+              @csrf
+              <input type="text" name="Category_Name" id="Category_Name" placeholder="Enter Shop list category here">
+              <input type="submit" value="submit">
+            </form>
+            </center>
 <center><h3>List of shoplists</h3> </center>
 <ul>
 
  @foreach ($shoppinglist as $shop)
  <li class="list-group-item" >
-   <a onclick="location.href='/ShoppingListItems?Item_category={{$shop->Category_Name}}'" >{{$shop->Category_Name}}</a>    <button style="z-index: 4;" type="button" class="close" onclick="DeleteCategory('{{$shop->Category_Name}}')">&times;</button>
+   <a style="font-size:28px;"onclick="location.href='/ShoppingListItems?Item_category={{$shop->Category_Name}}'" >{{$shop->Category_Name}}</a>    <button style="z-index: 4;" type="button" class="close" onclick="DeleteCategory('{{$shop->Category_Name}}')">&times;</button>
 <br><br>
  <div align="right" >
  <a>Created on: {{$shop->created_at}}</b></div>
@@ -97,12 +107,8 @@
 
 </ul>
 </div>
-<center><form method="get" action="/AddCategory">
-  @csrf
-  <input type="text" name="Category_Name" id="Category_Name" placeholder="Enter Shop list category here">
-  <input type="submit" value="submit">
-</form>
-</center>
+<br>
+<br>
 <div align="right">
 
 <footer>Signed in as <b>{{$user ?? ''}}</b></footer>

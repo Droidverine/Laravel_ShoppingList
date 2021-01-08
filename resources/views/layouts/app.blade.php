@@ -34,7 +34,7 @@
           width: 50%
           box-sizing: border-box;}
 
-        input[type=text], select, textarea {
+         select, textarea {
           width: 100%;
           padding: 12px;
           border: 1px solid #ccc;

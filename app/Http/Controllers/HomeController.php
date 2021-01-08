@@ -30,11 +30,11 @@ class HomeController extends Controller
       $shop= shoppinglist_Categories::all()->where('Created_by',$user->email);
       if(sizeof($shop)==0)
       {
-        return view('shoppingListView',['shoppinglist'=>$shop,'status'=>"bad"]);
+        return view('shoppingListView',['user' =>$user->email,'shoppinglist'=>$shop,'status'=>"bad"]);
 
       }
       else{
-      return view('shoppingListView',['shoppinglist'=>$shop, 'status'=>"good"]);    }
+      return view('shoppingListView',['user' =>$user->email,'shoppinglist'=>$shop, 'status'=>"good"]);    }
 
 }
 

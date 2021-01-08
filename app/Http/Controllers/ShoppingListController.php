@@ -18,9 +18,10 @@ class ShoppingListController extends Controller
     $user = Auth::user();
 
     $shop= shoppinglist_Categories::all()->where('Created_by',$user->email);
+    $count= shoppinglist_items:all()->where('Item_createdby',$user->email);
     if(sizeof($shop)==0)
     {
-      return view('shoppingListView',['shoppinglist'=>$shop,'status'=>"bad"]);
+      return view('shoppingListView',['shoppinglist'=>$shop,'user' =>$user->email,'status'=>"bad"]);
 
     }
     else{
