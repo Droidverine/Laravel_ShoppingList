@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 class ShoppingListController extends Controller
 {
 
+//To display Shopping list categories
   public function displaylist()
   {
     $user = Auth::user();
@@ -27,7 +28,6 @@ class ShoppingListController extends Controller
     return view('shoppingListView',['shoppinglist'=>$shop,'user' =>$user->email]);
 }
   }
-
 
 
 //Add Category if not exists
@@ -87,6 +87,8 @@ class ShoppingListController extends Controller
       return view('shoppingListViewItems',['Item_category'=>request("Item_category"),'shoppinglistitems'=>$allitems, 'status'=>"Aha Seems you already have this"]);
       }
     }
+
+//To get shopping list items
     public function ViewShoppingListItem(Request $request)
     {
       $user = Auth::user();
@@ -97,6 +99,7 @@ class ShoppingListController extends Controller
       return view('shoppingListViewItems',['Item_category'=>$itemc,'Item_createdby'=>$user->email,'shoppinglistitems'=>$allitems]);
     }
 
+//To delete shopping list item
     public function DeleteItem(Request $request)
     {
       $user = Auth::user();
@@ -112,6 +115,7 @@ class ShoppingListController extends Controller
       return view('shoppingListViewItems',['Item_category'=>$itemc,'Item_createdby'=>$user->email,'shoppinglistitems'=>$shop]);
     }
 
+//To mark shopping list item
     public function MarkItem(Request $request)
     {
       $user = Auth::user();
@@ -126,28 +130,29 @@ class ShoppingListController extends Controller
       return view('shoppingListViewItems',['Item_category'=>$itemc,'Item_createdby'=>$user->email,'shoppinglistitems'=>$shop]);
     }
 
+//To Edit shopping list item
     public function EditItem(Request $request)
     {
-      //check if already exists pending
       $user = Auth::user();
       $itemc=$request->input('Item_category');
       $itemn=$request->input('Item_name');
       $newitemname=$request->input('New_Item_name');
-      $t= shoppinglist_items::where('Item_name',$newitemname)->where('Item_createdby',$user->email)->where('Item_category',request("Item_category"));
-      $ct=count(array($t));
-      $shop= shoppinglist_items::all()->where('Item_createdby',$user->email)->where('Item_category',$itemc);
-
+      $ct= shoppinglist_items::where('Item_name',$newitemname)->where('Item_createdby',$user->email)->where('Item_category',request("Item_category"))->count();
+      //$ct=count(array($t));
       if($ct==0){
-      $allitems= shoppinglist_items::where('Item_name',$itemn)->where('Item_createdby',$user->email)->where('Item_category',request("Item_category"))->update(['Item_name' => $newitemname]);
+      $litems= shoppinglist_items::first()->where('Item_name',$itemn)->where('Item_createdby',$user->email)->where('Item_category',request("Item_category"))->update(['Item_name' => $newitemname]);
+      $shop= shoppinglist_items::all()->where('Item_createdby',$user->email)->where('Item_category',$itemc);
       return view('shoppingListViewItems',['Item_category'=>$itemc,'Item_createdby'=>$user->email,'shoppinglistitems'=>$shop]);
 
 }
   else{
+    $shop= shoppinglist_items::all()->where('Item_createdby',$user->email)->where('Item_category',$itemc);
     return view('shoppingListViewItems',['Item_category'=>$itemc,'Item_createdby'=>$user->email,'shoppinglistitems'=>$shop,'status'=>'Seems like item with same name already exists']);
 
     }
     }
 
+//Delete Shopping list category
     public function DeleteCategory(Request $request)
     {
       $user = Auth::user();
@@ -159,7 +164,7 @@ class ShoppingListController extends Controller
       return view('shoppingListView',['Item_category'=>$itemc,'Item_createdby'=>$user->email,'user'=>$user->email,'shoppinglist'=>$shop]);
     }
 
-
+//To logout
     public function logout1()
     {
         Auth::logout();

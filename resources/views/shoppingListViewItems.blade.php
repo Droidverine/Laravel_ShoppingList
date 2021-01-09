@@ -88,6 +88,8 @@
             <h3>Add Item to list:</h3>
 
             <a style="color:RED;">{{$status ?? ''}}</a>
+            {{$ct ?? ''}}
+
           <form  method="get" action="/AddShoppingListItems">
               @csrf
               <input type="hidden" name="Item_category" id="Item_category" value="{{$Item_category}}">

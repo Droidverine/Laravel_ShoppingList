@@ -12,3 +12,8 @@ to create shopping category and add items to it,and various such other features 
 - Register or login using email
 - Create/Delete Shopping list category
 - Create/Update/Delete Shopping list items
+- Mark Shopping items fulfilled
+
+## Feature Suggestions
+
+Have Feature Suggestions feel free to send pull request...
